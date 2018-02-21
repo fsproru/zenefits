@@ -7,6 +7,24 @@ declare namespace ZenefitsCore {
     url: string;
     logo_url: string;
   }
+  interface AccessToken {
+    access_token: string;
+    token_type: string;
+    expires_in: number;
+    refresh_token: string;
+    scope: string;
+  }
+  interface AccessTokenRequestBody {
+    client_id: string;
+    client_secret: string;
+    code: string;
+    grant_type: string;
+    redirect_uri: string;
+  }
+  enum GrantType {
+    refresh_token = 'refresh_token',
+    authorization_code = 'authorization_code',
+  }
   interface Person {
     banks: Reference;
     city: string;
@@ -173,7 +191,7 @@ interface Response {
   data: any;
 }
 
-declare namespace ZenefitsPlatform {
+export declare namespace ZenefitsPlatform {
   interface Installation {
     url: string,
     fields: any,

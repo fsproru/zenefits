@@ -4,7 +4,6 @@
 /// <reference types="node" />
 /// <reference path="./index.d.ts" />
 
-
 import _ = require("lodash");
 import async = require("async");
 import needle = require("needle");
@@ -17,13 +16,14 @@ export default class Zenefits {
   client_secret: string;
   urlBase: string;
   platformBaseUrl: string;
+  secureBaseUrl: string;
   coreBaseUrl: string;
   applicationId: string;
   installId: string;
   set: any;
   credentialsRefreshed: boolean;
   autoPagination: boolean;
-  runCollector: boolean
+  runCollector: boolean;
 
   constructor(opts: any) {
     this.access_token = opts.access_token;
@@ -33,8 +33,9 @@ export default class Zenefits {
     this.credentialsRefreshed = false;
     this.runCollector = opts.runCollector ? opts.runCollector : true;
     this.autoPagination = opts.autoPagination ? opts.autoPagination : false;
-    this.platformBaseUrl = "https://api.zenefits.com/platform";
-    this.coreBaseUrl = "https://api.zenefits.com/core";
+    this.platformBaseUrl = opts.platformBaseUrl || "https://api.zenefits.com/platform";
+    this.coreBaseUrl = opts.coreBaseUrl || "https://api.zenefits.com/core";
+    this.secureBaseUrl = opts.secureBaseUrl || "https://secure.zenefits.com";
   }
 
   _request(method: string, url: string, data: any, singleton: boolean, cb: any, pageCB?: any) {
@@ -63,7 +64,7 @@ export default class Zenefits {
     }
 
     const renewToken = () => {
-      needle.post("https://secure.zenefits.com/oauth2/token/", `grant_type=refresh_token&refresh_token=${this.refresh_token}&client_id=${this.client_id}&client_secret=${this.client_secret}`, {}, (err, resp, body) => {
+      needle.post("https://secure.zenefits.com/oauth2/token/", `grant_type=${ZenefitsCore.GrantType.refresh_token.toString()}&refresh_token=${this.refresh_token}&client_id=${this.client_id}&client_secret=${this.client_secret}`, {}, (err, resp, body) => {
         if (err || body.error) {
           cb(err || body.error)
         } else {
@@ -132,6 +133,25 @@ export default class Zenefits {
 
     let collector: any[] = [];
     _req();
+  }
+
+  /**
+   * Fetches an access token based on the provided code and redirectUri
+   *
+   * @param {string} code the code provided in the Zenefits OAuth flow.
+   * @param {string} redirectUri the redirect URI used in the OAuth flow previously.
+   * @returns {Promise<ZenefitsCore.AccessToken>} a newly fetched access token object.
+   * @memberof Zenefits
+   */
+  async fetchAccessToken(code: string, redirectUri: string): Promise<ZenefitsCore.AccessToken> {
+    const body: ZenefitsCore.AccessTokenRequestBody = {
+      client_id: this.client_id,
+      client_secret: this.client_secret,
+      code: code,
+      grant_type: ZenefitsCore.GrantType.authorization_code.toString(),
+      redirect_uri: redirectUri,
+    };
+    return await needle.post(`${this.secureBaseUrl}/oauth2/token/`, body);
   }
 
   core(type: string, id: string, singleton: boolean, cb: any, pageCB?: any) {
@@ -325,4 +345,4 @@ export default class Zenefits {
   }
 }
 
-export { Zenefits };
+export { Zenefits, ZenefitsCore, ZenefitsPlatform };
