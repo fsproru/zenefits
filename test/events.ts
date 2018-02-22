@@ -1,10 +1,3 @@
-/// <reference types="async" />
-/// <reference types="nock" />
-/// <reference types="chai" />
-/// <reference types="mocha" />
-/// <reference types="lodash" />
-/// <reference path="../index.d.ts" />
-
 import _ = require("lodash");
 import async = require("async");
 import fs = require("fs");

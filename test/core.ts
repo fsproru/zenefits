@@ -1,9 +1,3 @@
-/// <reference types="nock" />
-/// <reference types="chai" />
-/// <reference types="mocha" />
-/// <reference types="lodash" />
-/// <reference path="../index.d.ts" />
-
 import _ = require("lodash");
 import fs = require("fs");
 import path = require("path");

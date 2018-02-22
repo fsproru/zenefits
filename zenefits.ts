@@ -3,6 +3,12 @@ import * as needle from "needle";
 import * as crypto from "crypto";
 import { ZenefitsPlatform, ZenefitsCore } from "./interfaces";
 
+/**
+ * Responsible for communicating with Zenefits API.
+ *
+ * @export
+ * @class Zenefits
+ */
 export class Zenefits {
   access_token: string;
   refresh_token: string;

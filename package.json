@@ -2,8 +2,8 @@
   "name": "zenefits",
   "version": "0.7.0",
   "description": "An npm module to interact with the Zenefits API",
-  "main": "index.js",
-  "typings": "index.d.ts",
+  "main": "lib/index.ts",
+  "typings": "lib/index.d.ts",
   "scripts": {
     "test": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage && rm -rf ./coverage",
     "testLocal": "source ~/.nvm/nvm.sh; nvm use; ./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly",
@@ -16,6 +16,11 @@
   "keywords": [
     "zenefits",
     "hr"
+  ],
+  "files": [
+    "index.ts",
+    "interfaces.ts",
+    "zenefits.ts"
   ],
   "author": "David B Mittelman",
   "license": "MIT",

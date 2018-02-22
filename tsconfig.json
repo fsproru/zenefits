@@ -5,7 +5,9 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "allowJs": true,
+    "declaration": true,
+    "declarationDir": "lib",
+    "outDir": "lib",
   },
   "compileOnSave": true
 }
