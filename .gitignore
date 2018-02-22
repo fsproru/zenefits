@@ -1,4 +1,3 @@
-
 # Created by https://www.gitignore.io/api/node
 
 ### Node ###
@@ -54,6 +53,7 @@ jspm_packages
 /test/testCreds.json
 /test/.DS_Store
 *.js
+*.js.map
 .tags_sorted_by_file
 zenefits.sublime-workspace
 zenefits.sublime-project

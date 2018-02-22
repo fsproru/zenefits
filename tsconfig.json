@@ -5,10 +5,7 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "allowJs": true
+    "allowJs": true,
   },
-  "compileOnSave": true,
-  "compilerOptions": {
-    "noImplicitAny" : true
-  }
+  "compileOnSave": true
 }

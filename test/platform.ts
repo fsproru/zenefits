@@ -12,6 +12,7 @@ import path = require("path");
 import chai = require("chai");
 const expect = chai.expect;
 import { Zenefits } from "../index";
+import { ZenefitsPlatform } from "../interfaces";
 
 let client: any;
 

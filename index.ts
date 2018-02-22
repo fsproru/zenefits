@@ -4,12 +4,12 @@
 /// <reference types="node" />
 /// <reference path="./index.d.ts" />
 
-import _ = require("lodash");
-import async = require("async");
-import needle = require("needle");
-import crypto = require("crypto");
+import * as _ from 'lodash';
+import * as needle from 'needle';
+import * as crypto from 'crypto';
+import { ZenefitsPlatform, ZenefitsCore } from './interfaces';
 
-export default class Zenefits {
+export class Zenefits {
   access_token: string;
   refresh_token: string;
   client_id: string;
@@ -104,7 +104,7 @@ export default class Zenefits {
     }
 
     const _req = () => {
-      needle.request(method, url, data, options, (err: any, resp: any, body: any) => {
+      needle.request(method as "get" | "head" | "delete" | "patch" | "post" | "put", url, data, options, (err: any, resp: any, body: any) => {
         if (resp && resp.statusCode === 401) {
           renewToken();
         } else if (resp && resp.statusCode >= 400) {
@@ -143,7 +143,7 @@ export default class Zenefits {
    * @returns {Promise<ZenefitsCore.AccessToken>} a newly fetched access token object.
    * @memberof Zenefits
    */
-  async fetchAccessToken(code: string, redirectUri: string): Promise<ZenefitsCore.AccessToken> {
+  fetchAccessToken(code: string, redirectUri: string, cb: (error: Error, payload: any) => void) {
     const body: ZenefitsCore.AccessTokenRequestBody = {
       client_id: this.client_id,
       client_secret: this.client_secret,
@@ -151,7 +151,11 @@ export default class Zenefits {
       grant_type: ZenefitsCore.GrantType.authorization_code.toString(),
       redirect_uri: redirectUri,
     };
-    return await needle.post(`${this.secureBaseUrl}/oauth2/token/`, body);
+    needle.post(`${this.secureBaseUrl}/oauth2/token/`, body, {}, cb);
+  }
+
+  fetchResourceUrl(url: string, method: string = "get", data: any = undefined, singleton: boolean = true, cb: (error: Error, payload: any) => void, pageCB?: any) {
+    return this._request(method, url, data, singleton, cb, pageCB);
   }
 
   core(type: string, id: string, singleton: boolean, cb: any, pageCB?: any) {
@@ -344,5 +348,3 @@ export default class Zenefits {
     }
   }
 }
-
-export { Zenefits, ZenefitsCore, ZenefitsPlatform };

@@ -10,6 +10,7 @@ import path = require("path");
 import chai = require("chai");
 import { Zenefits } from "../index";
 import nock = require("nock");
+import { ZenefitsCore, Response } from "../interfaces";
 
 const expect = chai.expect;
 
