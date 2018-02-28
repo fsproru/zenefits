@@ -6,6 +6,10 @@ export namespace ZenefitsCore {
     people: Reference[];
     url: string;
     logo_url: string;
+    legal_street1: string;
+    legal_street2: string;
+    legal_state: string;
+    legal_zip: string;
   }
   export interface AccessToken {
     access_token: string;
