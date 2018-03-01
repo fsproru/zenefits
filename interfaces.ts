@@ -10,6 +10,7 @@ export namespace ZenefitsCore {
     legal_street2: string;
     legal_state: string;
     legal_zip: string;
+    legal_name: string
   }
   export interface AccessToken {
     access_token: string;
